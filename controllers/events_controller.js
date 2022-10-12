@@ -1,10 +1,10 @@
 // DEPENDENCIES
 const events = require('express').Router()
 const db = require('../models')
-const { Event } = db 
+const { Event, MeetGreet, SetTime, Stage, Band } = db 
 const { Op } = require('sequelize')
 
-// FIND EVENTS
+// FIND ALL EVENTS
 events.get('/', async (req, res) => {
     try {
         const foundEvents = await Event.findAll({
@@ -17,21 +17,46 @@ events.get('/', async (req, res) => {
     } catch (error) {
         res.status(500).json(error)
     }
-});
+})
 
-// FIND SPECIFIC EVENT
-events.get('/:id', async (req, res) => {
+// FIND A SPECIFIC EVENT
+events.get('/:name', async (req, res) => {
     try {
         const foundEvent = await Event.findOne({
-            where: { event_id: req.params.id }
+            where: { name: req.params.name },
+            include: [
+                { 
+                    model: MeetGreet, 
+                    as: "meet_greets", 
+                    attributes: { exclude: [ "event_id", "band_id" ] },
+                    include: {
+                         model: Band, 
+                         as: "band", 
+                    } 
+                },
+                { 
+                    model: SetTime, 
+                    as: "set_times",
+                    attributes: { exclude: [ "event_id", "stage_id", "band_id" ] },
+                    include: [
+                        { model: Band, as: "band" },
+                        { model: Stage, as: "stage" }
+                    ]
+                },
+                { 
+                    model: Stage, 
+                    as: "stages",
+                    through: { attributes: [] }
+                }
+            ]
         })
         res.status(200).json(foundEvent)
     } catch (error) {
         res.status(500).json(error)
     }
-});
+})
 
-// CREATE EVENT
+// CREATE AN EVENT
 events.post('/', async (req, res) => {
     try {
         const newEvent = await Event.create(req.body)
@@ -42,9 +67,9 @@ events.post('/', async (req, res) => {
     } catch(err) {
         res.status(500).json(err)
     }
-});
+})
 
-// UPDATE EVENT
+// UPDATE AN EVENT
 events.put('/:id', async (req, res) => {
     try {
         const updatedEvents = await Event.update(req.body, {
@@ -58,9 +83,9 @@ events.put('/:id', async (req, res) => {
     } catch(err) {
         res.status(500).json(err)
     }
-});
+})
 
-// DELETE EVENT
+// DELETE AN EVENT
 events.delete('/:id', async (req, res) => {
     try {
         const deletedEvents = await Event.destroy({
@@ -74,7 +99,7 @@ events.delete('/:id', async (req, res) => {
     } catch(err) {
         res.status(500).json(err)
     }
-});
+})
 
 // EXPORT
 module.exports = events
