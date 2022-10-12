@@ -4,7 +4,7 @@ const db = require('../models')
 const { Band, MeetGreet, SetTime, Event } = db 
 const { Op } = require('sequelize')
 
-// FIND ALL BANDS
+// FIND BANDS
 bands.get('/', async (req, res) => {
     try {
         const foundBands = await Band.findAll({
@@ -17,9 +17,9 @@ bands.get('/', async (req, res) => {
     } catch (error) {
         res.status(500).json(error)
     }
-})
+});
 
-// FIND A SPECIFIC BAND
+// FIND SPECIFIC BAND
 bands.get('/:name', async (req, res) => {
     try {
         const foundBand = await Band.findOne({
@@ -54,8 +54,9 @@ bands.get('/:name', async (req, res) => {
         res.status(200).json(foundBand)
     } catch (error) {
         res.status(500).json(error)
+        console.log(error)
     }
-})
+});
 
 // CREATE A BAND
 bands.post('/', async (req, res) => {
@@ -68,9 +69,9 @@ bands.post('/', async (req, res) => {
     } catch(err) {
         res.status(500).json(err)
     }
-})
+});
 
-// UPDATE A BAND
+// UPDATE BAND
 bands.put('/:id', async (req, res) => {
     try {
         const updatedBands = await Band.update(req.body, {
@@ -84,9 +85,9 @@ bands.put('/:id', async (req, res) => {
     } catch(err) {
         res.status(500).json(err)
     }
-})
+});
 
-// DELETE A BAND
+// DELETE BAND
 bands.delete('/:id', async (req, res) => {
     try {
         const deletedBands = await Band.destroy({
@@ -100,7 +101,7 @@ bands.delete('/:id', async (req, res) => {
     } catch(err) {
         res.status(500).json(err)
     }
-})
+});
 
 // EXPORT
 module.exports = bands

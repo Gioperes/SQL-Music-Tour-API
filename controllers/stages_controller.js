@@ -4,7 +4,7 @@ const db = require('../models')
 const { Stage, Event } = db 
 const { Op } = require('sequelize')
 
-// FIND ALL STAGES
+// FIND STAGES
 stages.get('/', async (req, res) => {
     try {
         const foundStages = await Stage.findAll({
@@ -16,7 +16,7 @@ stages.get('/', async (req, res) => {
     } catch (error) {
         res.status(500).json(error)
     }
-})
+});
 
 // FIND A SPECIFIC STAGE
 stages.get('/:name', async (req, res) => {

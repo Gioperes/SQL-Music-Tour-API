@@ -4,7 +4,7 @@ const db = require('../models')
 const { Event, MeetGreet, SetTime, Stage, Band } = db 
 const { Op } = require('sequelize')
 
-// FIND ALL EVENTS
+// FIND  EVENTS
 events.get('/', async (req, res) => {
     try {
         const foundEvents = await Event.findAll({
@@ -17,9 +17,9 @@ events.get('/', async (req, res) => {
     } catch (error) {
         res.status(500).json(error)
     }
-})
+});
 
-// FIND A SPECIFIC EVENT
+// FIND SPECIFIC EVENT
 events.get('/:name', async (req, res) => {
     try {
         const foundEvent = await Event.findOne({
@@ -54,9 +54,9 @@ events.get('/:name', async (req, res) => {
     } catch (error) {
         res.status(500).json(error)
     }
-})
+});
 
-// CREATE AN EVENT
+// CREATE EVENT
 events.post('/', async (req, res) => {
     try {
         const newEvent = await Event.create(req.body)
@@ -67,9 +67,9 @@ events.post('/', async (req, res) => {
     } catch(err) {
         res.status(500).json(err)
     }
-})
+});
 
-// UPDATE AN EVENT
+// UPDATE EVENT
 events.put('/:id', async (req, res) => {
     try {
         const updatedEvents = await Event.update(req.body, {
@@ -83,9 +83,9 @@ events.put('/:id', async (req, res) => {
     } catch(err) {
         res.status(500).json(err)
     }
-})
+});
 
-// DELETE AN EVENT
+// DELETE EVENT
 events.delete('/:id', async (req, res) => {
     try {
         const deletedEvents = await Event.destroy({
@@ -99,7 +99,7 @@ events.delete('/:id', async (req, res) => {
     } catch(err) {
         res.status(500).json(err)
     }
-})
+});
 
 // EXPORT
 module.exports = events

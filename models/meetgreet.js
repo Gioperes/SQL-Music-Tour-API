@@ -37,14 +37,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.SMALLINT,
       allowNull: false
     },
-    meet_start_time: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
-    meet_end_time: {
-      type: DataTypes.DATE,
-      allowNull: false
-    }
+    // meet_start_time: {
+    //   type: DataTypes.DATE,
+    //   allowNull: false
+    // },
+    // meet_end_time: {
+    //   type: DataTypes.DATE,
+    //   allowNull: false
+    // }
   }, {
     sequelize,
     modelName: 'MeetGreet',
